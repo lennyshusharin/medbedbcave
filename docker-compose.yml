@@ -1,0 +1,31 @@
+services:
+  web:
+    build: .
+    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DJANGO_SETTINGS_MODULE=core.settings
+      - DB_HOST=db
+      - DB_NAME=rmoto
+      - DB_USER=rmoto_user
+      - DB_PASSWORD=rmoto_pass
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: rmoto
+      MYSQL_USER: rmoto_user
+      MYSQL_PASSWORD: rmoto_pass
+      MYSQL_ROOT_PASSWORD: root_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

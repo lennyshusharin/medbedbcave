@@ -1,0 +1,6 @@
+# requirements.txt
+Django>=4.2
+mysqlclient
+djangorestframework
+gunicorn
+django-environ
